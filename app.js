@@ -11,7 +11,10 @@ app.get(
     '/',
     (req, res) => res.status(200).json({
         message: "Welcome to the Points API!",
-        description: "An API that stores information on points awarded to (or deducted from!) Fossians."
+        description: "An API that stores information on points awarded to (or deducted from!) Fossians.",
+        endpoints: [
+            { method: 'GET', path: '/', success_status: '200' }
+        ]
     })
 )
 
