@@ -33,17 +33,26 @@ describe("Integration tests: API endpoints",
                 )
 
                 it("responds to GET at `/` with a welcome message and a description",
-                async () => {
-                    // Act
-                    const response = await request(server).get('/')
+                    async () => {
+                        // Act
+                        const response = await request(server).get('/')
 
-                    // Assert
-                    expect(response.body.message).toBe("Welcome to the Points API!")
-                    expect(response.body.description).toBe("An API that stores information on points awarded to (or deducted from!) Fossians.")
-                }
+                        // Assert
+                        expect(response.body.message).toBe("Welcome to the Points API!")
+                        expect(response.body.description).toBe("An API that stores information on points awarded to (or deducted from!) Fossians.")
+                    }
                 )
 
-                
+                it("returns a list of the available endpoints",
+                    async () => {
+                        // Act
+                        const response = await request(server).get('/')
+
+                        // Assert
+                        expect(response.body.endpoints).toBeInstanceOf(Array);  // is an array
+                        expect(response.body.endpoints).toContainEqual({ method: 'GET', path: '/', success_status: '200' })
+                    }
+                )
             }
         )
 
