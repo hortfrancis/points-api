@@ -1,32 +1,52 @@
 const request = require('supertest')
 const app = require('../../app')
 
-describe("API endpoints",
+describe("Integration tests: API endpoints",
     () => {
 
         // This will hold the live `http.Server` object returned by Express
-        let api;
+        let server;
 
         beforeAll(() => {
-            api = app.listen(4000,
+            server = app.listen(4000,
                 () => console.log("Test server running on PORT 4000")
             )
         })
 
         afterAll(async () => {
             console.log("Gracefully closing server.")
-            await api.close()
+            await server.close()
         })
 
-        it("responds to GET at `/` with a status code of 200",
-            async () => {
-                // Act
-                const response = await request(api).get('/')
+        describe(
+            "AS A user, I WANT to get information about the API, SO THAT I know it is available and how I can use it.",
+            () => {
 
-                // Assert
-                expect(response.statusCode).toBe(200);
+                it("responds to GET at `/` with a status code of 200",
+                    async () => {
+                        // Act
+                        const response = await request(server).get('/')
+
+                        // Assert
+                        expect(response.statusCode).toBe(200)
+                    }
+                )
+
+                it("responds to GET at `/` with a welcome message and a description",
+                async () => {
+                    // Act
+                    const response = await request(server).get('/')
+
+                    // Assert
+                    expect(response.body.message).toBe("Welcome to the Points API!")
+                    expect(response.body.description).toBe("An API that stores information on points awarded to (or deducted from!) Fossians.")
+                }
+                )
+
+                
             }
         )
+
 
     }
 )
