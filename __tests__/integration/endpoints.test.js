@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('../../app')
 
-describe("API endpoints",
+describe("Integration tests: API endpoints",
     () => {
 
         // This will hold the live `http.Server` object returned by Express
@@ -32,8 +32,18 @@ describe("API endpoints",
                     }
                 )
 
+                it("responds to GET at `/` with a welcome message and a description",
+                async () => {
+                    // Act
+                    const response = await request(server).get('/')
 
+                    // Assert
+                    expect(response.body.message).toBe("Welcome to the Points API!")
+                    expect(response.body.description).toBe("An API that stores information on points awarded to (or deducted from!) Fossians.")
+                }
+                )
 
+                
             }
         )
 

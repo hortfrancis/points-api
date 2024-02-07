@@ -9,7 +9,10 @@ app.use(express.json())
 
 app.get(
     '/',
-    (req, res) => res.status(200).send()
+    (req, res) => res.status(200).json({
+        message: "Welcome to the Points API!",
+        description: "An API that stores information on points awarded to (or deducted from!) Fossians."
+    })
 )
 
 module.exports = app
